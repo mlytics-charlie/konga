@@ -1,16 +1,31 @@
-version: "3"
-
 networks:
  kong-net:
   driver: bridge
 
 services:
+  konga:
+    image: <IMAGE_YOU_BUILD>
+    restart: always
+    networks:
+      - kong-net
+    environment:
+      DB_ADAPTER: postgres
+      DB_HOST: kong-database
+      DB_PORT: 5432
+      DB_DATABASE: kong
+      DB_USER: kong
+      DB_PASSWORD: kong
+      DB_IS_PG12_OR_NEWER: true
+      NODE_ENV: production
+      KONGA_HOOK_TIMEOUT: 120000
+    ports:
+      - "1337:1337"
 
   #######################################
   # Postgres: The database used by Kong
   #######################################
   kong-database:
-    image: postgres:9.6
+    image: postgres:16
     restart: always
     networks:
       - kong-net
@@ -18,6 +33,7 @@ services:
       POSTGRES_USER: kong
       POSTGRES_DB: kong
       POSTGRES_PASSWORD: kong
+      POSTGRES_INITDB_ARGS: --auth-host=md5
     ports:
       - "5432:5432"
     healthcheck:
@@ -30,7 +46,7 @@ services:
   # Kong database migration
   #######################################
   kong-migration:
-    image: kong:1.5
+    image: kong:2.1
     command: "kong migrations bootstrap"
     networks:
       - kong-net
@@ -47,7 +63,7 @@ services:
   # Kong: The API Gateway
   #######################################
   kong:
-    image: kong:1.5
+    image: kong:2.1
     restart: always
     networks:
       - kong-net
