@@ -28,7 +28,7 @@ module.exports.connections = {
    */
   localDiskDb: {
     adapter: 'sails-disk',
-    filePath:  process.env.NODE_ENV == 'test' ? './.tmp/' : ( process.env.STORAGE_PATH || './kongadata/' ),
+    filePath: process.env.NODE_ENV == 'test' ? './.tmp/' : (process.env.STORAGE_PATH || './kongadata/'),
     fileName: process.env.NODE_ENV == 'test' ? 'localDiskDb.db' : 'konga.db'
   },
 
@@ -61,9 +61,9 @@ module.exports.connections = {
     url: process.env.DB_URI || null,
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 27017,
-    user: process.env.DB_USER ||  null,
-    password: process.env.DB_PASSWORD ||  null,
-    database: process.env.DB_DATABASE ||  'konga_database',
+    user: process.env.DB_USER || null,
+    password: process.env.DB_PASSWORD || null,
+    database: process.env.DB_DATABASE || 'konga_database',
   },
 
   /**
@@ -77,13 +77,14 @@ module.exports.connections = {
     adapter: 'sails-postgresql',
     url: process.env.DB_URI,
     host: process.env.DB_HOST || 'localhost',
-    user:  process.env.DB_USER || 'postgres',
+    user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD || 'admin1!',
     port: process.env.DB_PORT || 5432,
-    database: process.env.DB_DATABASE ||'konga_database',
+    database: process.env.DB_DATABASE || 'konga_database',
     // schema: process.env.DB_PG_SCHEMA ||'public',
     poolSize: process.env.DB_POOLSIZE || 10,
-    ssl: process.env.DB_SSL ? true : false // If set, assume it's true
+    ssl: process.env.DB_SSL ? true : false, // If set, assume it's true
+    isVersion12OrNewer: process.env.DB_IS_PG12_OR_NEWER || false
   },
 
   /**
@@ -95,9 +96,9 @@ module.exports.connections = {
     adapter: 'sails-sqlserver',
     url: process.env.DB_URI || null,
     host: process.env.DB_HOST || 'localhost',
-    user:  process.env.DB_USER || null,
+    user: process.env.DB_USER || null,
     password: process.env.DB_PASSWORD || null,
     port: process.env.DB_PORT || 49150,
-    database: process.env.DB_DATABASE ||'konga_database'
+    database: process.env.DB_DATABASE || 'konga_database'
   },
 };
